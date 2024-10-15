@@ -1,10 +1,12 @@
+// routes/authRoutes.js
+
 const express = require('express');
-const { verifyToken } = require('../controllers/authController');
+const { signup, login } = require('../controllers/authController');
 
 const router = express.Router();
 
 // Autenticação (login e cadastro)
-router.post('/signup', verifyToken); // Rota de cadastro
-router.post('/login', verifyToken); // Rota de login
+router.post('/signup', signup); // Rota de cadastro de usuário
+router.post('/login', login); // Rota de login de usuário
 
 module.exports = router;
