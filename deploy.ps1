@@ -20,3 +20,5 @@ git push heroku master
 
 # Exibe uma mensagem de sucesso
 Write-Host "Código enviado com sucesso para Azure DevOps e Heroku!"
+
+heroku logs --tail

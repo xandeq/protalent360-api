@@ -7,7 +7,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const morgan = require('morgan')
+const morgan = require('morgan');
+const errorHandler = require('./src/middleware/errorHandler');
 
 // Importar as rotas
 const athleteRoutes = require('./src/routes/athleteRoutes');
@@ -28,6 +29,9 @@ app.use(morgan('combined')); // 'combined' é um formato padrão de log detalhad
 app.use('/api/athletes', athleteRoutes); // Rotas para atletas
 app.use('/api/auth', authRoutes); // Rotas de autenticação
 
+// Middleware de tratamento de erros
+app.use(errorHandler);
+
 // Conectar ao banco de dados
 const connection = require('./src/config/db');
 connection.connect(err => {
@@ -37,6 +41,7 @@ connection.connect(err => {
   }
   console.log('Conectado ao banco de dados MySQL');
 });
+
 
 // Definir a porta onde o servidor será iniciado
 const PORT = process.env.PORT || 3000;
