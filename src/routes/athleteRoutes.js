@@ -1,19 +1,13 @@
-const express = require("express");
-const {
-  createAthlete,
-  getAthleteProfile,
-  listAthletes,
-  updateAthlete,
-  deleteAthlete,
-} = require("../controllers/athleteController");
+const express = require('express');
+const { createAthlete, listAthletes, getAthlete, updateAthlete, deleteAthlete } = require('../controllers/athleteController');
 
 const router = express.Router();
 
-// Definição das rotas
-router.post("/create", createAthlete); // Rota para criar um novo atleta
-router.get("/:atletaId", getAthleteProfile); // Rota para visualizar o perfil de um atleta
-router.get("/list", listAthletes); // Rota para listar todos os atletas
-router.put("/update/:id", updateAthlete); // Rota para atualizar os dados de um atleta específico
-router.delete("/delete/:id", deleteAthlete); // Rota para deletar um atleta específico
+// Definindo as rotas
+router.post('/create', createAthlete);
+router.get('/list', listAthletes);
+router.get('/:id', getAthlete);
+router.put('/update/:id', updateAthlete);
+router.delete('/delete/:id', deleteAthlete);
 
 module.exports = router;
