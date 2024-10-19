@@ -43,61 +43,70 @@ exports.createAthlete = async (req, res, next) => {
 
     console.log("Recebendo dados para criar atleta:", req.body);
 
-    const checkEmailQuery = "SELECT * FROM usuarios WHERE email = ?";
-    connection.query(checkEmailQuery, [email], (err, results) => {
-      if (err) return next(err);
+    // Verifica se o email já existe
+    checkEmailExists(email, (err, emailExists) => {
+      if (err) {
+        console.error("Erro ao verificar o e-mail:", err); // Adiciona log de erro
+        return next(err); // Passa o erro ao middleware de erro
+      }
 
-      if (results.length > 0) {
-        // Se já existir um usuário com este e-mail
+      if (emailExists) {
+        console.log("E-mail já cadastrado:", email); // Adiciona log de e-mail já existente
         return res.status(400).json({
           error: "E-mail já cadastrado. Tente usar outro e-mail.",
         });
       }
-    });
 
-    const hashedPassword = bcrypt.hashSync(senha, 10);
-    const createUserQuery =
-      "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
+      // Cria o usuário se o e-mail não existir
+      const hashedPassword = bcrypt.hashSync(senha, 10);
+      const createUserQuery =
+        "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
 
-    connection.pool.query(
-      createUserQuery,
-      [nome, email, hashedPassword, "atleta"],
-      (err, result) => {
-        if (err) {
-          return next(err); // Passa o erro para o middleware de erro
-        }
-
-        const usuarioId = result.insertId;
-        console.log("Usuário cadastrado com ID:", usuarioId);
-
-        const createAthleteQuery =
-          "INSERT INTO atletas (usuario_id, idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        connection.pool.query(
-          createAthleteQuery,
-          [
-            usuarioId,
-            idade,
-            posicao,
-            altura,
-            peso,
-            cidade,
-            estado,
-            nivel,
-            selo_qualidade,
-          ],
-          (err, result) => {
-            if (err) {
-              return next(err); // Passa o erro para o middleware de erro
-            }
-
-            console.log("Atleta cadastrado com sucesso!");
-            res.status(201).json({ message: "Atleta cadastrado com sucesso!" });
+      connection.query(
+        createUserQuery,
+        [nome, email, hashedPassword, "atleta"],
+        (err, result) => {
+          if (err) {
+            console.error("Erro ao criar usuário:", err); // Loga erro de inserção
+            return next(err); // Passa o erro ao middleware de erro
           }
-        );
-      }
-    );
+
+          const usuarioId = result.insertId;
+          console.log("Usuário cadastrado com ID:", usuarioId); // Log de sucesso na criação do usuário
+
+          const createAthleteQuery =
+            "INSERT INTO atletas (usuario_id, idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+          connection.query(
+            createAthleteQuery,
+            [
+              usuarioId,
+              idade,
+              posicao,
+              altura,
+              peso,
+              cidade,
+              estado,
+              nivel,
+              selo_qualidade,
+            ],
+            (err, result) => {
+              if (err) {
+                console.error("Erro ao criar atleta:", err); // Log de erro na criação do atleta
+                return next(err); // Passa o erro ao middleware de erro
+              }
+
+              console.log("Atleta cadastrado com sucesso!"); // Log de sucesso na criação do atleta
+              res
+                .status(201)
+                .json({ message: "Atleta cadastrado com sucesso!" });
+            }
+          );
+        }
+      );
+    });
   } catch (error) {
+    console.error("Erro inesperado:", error); // Loga erros inesperados
     next(error); // Em caso de erro inesperado, passa o erro para o errorHandler
   }
 };
