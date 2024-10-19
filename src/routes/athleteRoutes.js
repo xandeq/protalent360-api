@@ -1,5 +1,11 @@
 const express = require('express');
-const { createAthlete, listAthletes, getAthlete, updateAthlete, deleteAthlete } = require('../controllers/athleteController');
+const {
+  createAthlete,
+  listAthletes,
+  getAthlete,
+  updateAthlete,
+  deleteAthlete,
+} = require('../controllers/athleteController');  // Certifique-se que o caminho está correto
 
 const router = express.Router();
 
