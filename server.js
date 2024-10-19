@@ -7,6 +7,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const morgan = require('morgan')
 
 // Importar as rotas
 const athleteRoutes = require('./src/routes/athleteRoutes');
@@ -19,6 +20,9 @@ const app = express();
 app.use(cors()); // Permitir requisições de qualquer domínio
 app.use(bodyParser.json()); // Parsear requisições do tipo JSON
 app.use(bodyParser.urlencoded({ extended: true })); // Parsear requisições do tipo URL-encoded
+
+// Adicionando o morgan para logar as requisições HTTP
+app.use(morgan('combined')); // 'combined' é um formato padrão de log detalhado
 
 // Definir as rotas da API
 app.use('/api/athletes', athleteRoutes); // Rotas para atletas
