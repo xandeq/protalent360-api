@@ -3,6 +3,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const connection = require("../config/db"); // Conexão com o banco de dados MySQL
+const { checkEmailExists } = require("../helpers/userHelper");
 
 // Função auxiliar para cadastrar um usuário
 const createUser = (nome, email, senha, tipo, callback) => {
