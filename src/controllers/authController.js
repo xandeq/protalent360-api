@@ -10,7 +10,7 @@ exports.signup = (req, res) => {
 
   // Verifica se o email já existe
   const checkEmailQuery = 'SELECT * FROM usuarios WHERE email = ?';
-  connection.query(checkEmailQuery, [email], (err, results) => {
+  connection.pool.query(checkEmailQuery, [email], (err, results) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: 'Erro no servidor ao verificar email' });
@@ -25,7 +25,7 @@ exports.signup = (req, res) => {
 
     // Inserir o usuário no banco
     const query = 'INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)';
-    connection.query(query, [nome, email, hashedPassword, tipo], (err, result) => {
+    connection.pool.query(query, [nome, email, hashedPassword, tipo], (err, result) => {
       if (err) {
         console.error(err);
         return res.status(500).json({ error: 'Erro ao registrar usuário' });
@@ -41,7 +41,7 @@ exports.login = (req, res) => {
 
   // Verificar se o usuário existe
   const query = 'SELECT * FROM usuarios WHERE email = ?';
-  connection.query(query, [email], (err, results) => {
+  connection.pool.query(query, [email], (err, results) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: 'Erro no servidor ao verificar usuário' });

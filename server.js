@@ -32,17 +32,8 @@ app.use("/api/auth", authRoutes); // Rotas de autenticação
 // Middleware de tratamento de erros (depois de todas as rotas)
 app.use(errorHandler);
 
-// Conectar ao banco de dados
-const connection = require("./src/config/db");
-
-// Verifica a conexão com o banco
-connection.connect((err) => {
-  if (err) {
-    console.error("Erro ao conectar ao banco de dados:", err);
-    process.exit(1); // Sai da aplicação se a conexão falhar
-  }
-  console.log("Conectado ao banco de dados MySQL");
-});
+// **Não precisa mais de conexão manual aqui**
+// O pool de conexões será utilizado diretamente nos controladores
 
 // Definir a porta onde o servidor será iniciado
 const PORT = process.env.PORT || 3000;

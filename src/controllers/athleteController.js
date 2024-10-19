@@ -10,7 +10,7 @@ const createUser = (nome, email, senha, tipo, callback) => {
 
   const query =
     "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
-  connection.query(
+  connection.pool.query(
     query,
     [nome, email, hashedPassword, tipo],
     (err, result) => {
@@ -47,7 +47,7 @@ exports.createAthlete = async (req, res, next) => {
     const createUserQuery =
       "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
 
-    connection.query(
+    connection.pool.query(
       createUserQuery,
       [nome, email, hashedPassword, "atleta"],
       (err, result) => {
@@ -61,7 +61,7 @@ exports.createAthlete = async (req, res, next) => {
         const createAthleteQuery =
           "INSERT INTO atletas (usuario_id, idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        connection.query(
+        connection.pool.query(
           createAthleteQuery,
           [
             usuarioId,
@@ -100,7 +100,7 @@ exports.getAthleteProfile = (req, res) => {
     JOIN usuarios u ON a.usuario_id = u.id 
     WHERE a.id = ?`;
 
-  connection.query(query, [atletaId], (err, results) => {
+  connection.pool.query(query, [atletaId], (err, results) => {
     if (err)
       return res.status(500).json({ error: "Erro ao buscar perfil do atleta" });
 
@@ -120,7 +120,7 @@ exports.listAthletes = (req, res) => {
     FROM atletas a 
     JOIN usuarios u ON a.usuario_id = u.id`;
 
-  connection.query(query, (err, results) => {
+  connection.pool.query(query, (err, results) => {
     if (err) {
       console.error("Erro ao buscar lista de atletas:", err);
       return res.status(500).json({ error: "Erro ao buscar lista de atletas" });
@@ -140,7 +140,7 @@ exports.getAthlete = (req, res) => {
     JOIN usuarios u ON a.usuario_id = u.id 
     WHERE a.id = ?`;
 
-  connection.query(query, [id], (err, results) => {
+  connection.pool.query(query, [id], (err, results) => {
     if (err) {
       console.error("Erro ao buscar atleta:", err);
       return res.status(500).json({ error: "Erro ao buscar atleta" });
@@ -173,7 +173,7 @@ exports.updateAthlete = (req, res) => {
     SET idade = ?, posicao = ?, altura = ?, peso = ?, cidade = ?, estado = ?, nivel = ?, selo_qualidade = ?
     WHERE id = ?`;
 
-  connection.query(
+  connection.pool.query(
     query,
     [idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade, id],
     (err, result) => {
@@ -197,7 +197,7 @@ exports.deleteAthlete = (req, res) => {
 
   const query = "DELETE FROM atletas WHERE id = ?";
 
-  connection.query(query, [id], (err, result) => {
+  connection.pool.query(query, [id], (err, result) => {
     if (err) {
       console.error("Erro ao deletar atleta:", err);
       return res.status(500).json({ error: "Erro ao deletar atleta" });
