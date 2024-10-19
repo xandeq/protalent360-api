@@ -37,9 +37,18 @@ const connection = require("./src/config/db");
 connection.connect((err) => {
   if (err) {
     console.error("Erro ao conectar ao banco de dados:", err);
-    process.exit(1); // Sai da aplicação se a conexão falhar
+    return;
   }
-  console.log("Conectado ao banco de dados MySQL");
+  console.log("Conectado ao banco de dados.");
+
+  // Execute suas queries aqui
+  connection.query("INSERT INTO athletes SET ?", atleta, (err, result) => {
+    if (err) throw err;
+    console.log("Atleta criado:", result);
+  });
+
+  // Fechar a conexão quando o trabalho for concluído
+  connection.end();
 });
 
 // Definir a porta onde o servidor será iniciado
