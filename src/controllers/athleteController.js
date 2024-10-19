@@ -25,60 +25,69 @@ const createUser = (nome, email, senha, tipo, callback) => {
 };
 
 // Criar um novo atleta
-exports.createAthlete = (req, res) => {
-  const {
-    nome,
-    email,
-    senha,
-    idade,
-    posicao,
-    altura,
-    peso,
-    cidade,
-    estado,
-    nivel,
-    selo_qualidade,
-  } = req.body;
+exports.createAthlete = async (req, res, next) => {
+  try {
+    const {
+      nome,
+      email,
+      senha,
+      idade,
+      posicao,
+      altura,
+      peso,
+      cidade,
+      estado,
+      nivel,
+      selo_qualidade,
+    } = req.body;
 
-  // Criar usuário primeiro
-  const hashedPassword = bcrypt.hashSync(senha, 10);
-  const createUserQuery =
-    "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
+    console.log("Recebendo dados para criar atleta:", req.body);
 
-  connection.query(
-    createUserQuery,
-    [nome, email, hashedPassword, "atleta"],
-    (err, result) => {
-      if (err)
-        return res.status(500).json({ error: "Erro ao cadastrar usuário" });
+    const hashedPassword = bcrypt.hashSync(senha, 10);
+    const createUserQuery =
+      "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
 
-      const usuarioId = result.insertId;
-
-      // Criar atleta associado
-      const createAthleteQuery =
-        "INSERT INTO atletas (usuario_id, idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-      connection.query(
-        createAthleteQuery,
-        [
-          usuarioId,
-          idade,
-          posicao,
-          altura,
-          peso,
-          cidade,
-          estado,
-          nivel,
-          selo_qualidade,
-        ],
-        (err, result) => {
-          if (err)
-            return res.status(500).json({ error: "Erro ao cadastrar atleta" });
-          res.status(201).json({ message: "Atleta cadastrado com sucesso!" });
+    connection.query(
+      createUserQuery,
+      [nome, email, hashedPassword, "atleta"],
+      (err, result) => {
+        if (err) {
+          return next(err); // Passa o erro para o middleware de erro
         }
-      );
-    }
-  );
+
+        const usuarioId = result.insertId;
+        console.log("Usuário cadastrado com ID:", usuarioId);
+
+        const createAthleteQuery =
+          "INSERT INTO atletas (usuario_id, idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        connection.query(
+          createAthleteQuery,
+          [
+            usuarioId,
+            idade,
+            posicao,
+            altura,
+            peso,
+            cidade,
+            estado,
+            nivel,
+            selo_qualidade,
+          ],
+          (err, result) => {
+            if (err) {
+              return next(err); // Passa o erro para o middleware de erro
+            }
+
+            console.log("Atleta cadastrado com sucesso!");
+            res.status(201).json({ message: "Atleta cadastrado com sucesso!" });
+          }
+        );
+      }
+    );
+  } catch (error) {
+    next(error); // Em caso de erro inesperado, passa o erro para o errorHandler
+  }
 };
 
 // controllers/athleteController.js
@@ -148,43 +157,56 @@ exports.getAthlete = (req, res) => {
 // Atualizar um atleta
 exports.updateAthlete = (req, res) => {
   const { id } = req.params;
-  const { idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade } = req.body;
+  const {
+    idade,
+    posicao,
+    altura,
+    peso,
+    cidade,
+    estado,
+    nivel,
+    selo_qualidade,
+  } = req.body;
 
   const query = `
     UPDATE atletas 
     SET idade = ?, posicao = ?, altura = ?, peso = ?, cidade = ?, estado = ?, nivel = ?, selo_qualidade = ?
     WHERE id = ?`;
 
-  connection.query(query, [idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade, id], (err, result) => {
-    if (err) {
-      console.error('Erro ao atualizar atleta:', err);
-      return res.status(500).json({ error: 'Erro ao atualizar atleta' });
-    }
+  connection.query(
+    query,
+    [idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade, id],
+    (err, result) => {
+      if (err) {
+        console.error("Erro ao atualizar atleta:", err);
+        return res.status(500).json({ error: "Erro ao atualizar atleta" });
+      }
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'Atleta não encontrado' });
-    }
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Atleta não encontrado" });
+      }
 
-    res.status(200).json({ message: 'Atleta atualizado com sucesso' });
-  });
+      res.status(200).json({ message: "Atleta atualizado com sucesso" });
+    }
+  );
 };
 
 // Deletar um atleta
 exports.deleteAthlete = (req, res) => {
   const { id } = req.params;
 
-  const query = 'DELETE FROM atletas WHERE id = ?';
+  const query = "DELETE FROM atletas WHERE id = ?";
 
   connection.query(query, [id], (err, result) => {
     if (err) {
-      console.error('Erro ao deletar atleta:', err);
-      return res.status(500).json({ error: 'Erro ao deletar atleta' });
+      console.error("Erro ao deletar atleta:", err);
+      return res.status(500).json({ error: "Erro ao deletar atleta" });
     }
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'Atleta não encontrado' });
+      return res.status(404).json({ error: "Atleta não encontrado" });
     }
 
-    res.status(200).json({ message: 'Atleta deletado com sucesso' });
+    res.status(200).json({ message: "Atleta deletado com sucesso" });
   });
 };
