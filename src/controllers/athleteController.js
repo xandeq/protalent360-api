@@ -43,6 +43,18 @@ exports.createAthlete = async (req, res, next) => {
 
     console.log("Recebendo dados para criar atleta:", req.body);
 
+    // Verificar se o email já existe
+    const checkEmailQuery = "SELECT * FROM usuarios WHERE email = ?";
+    connection.query(checkEmailQuery, [email], (err, results) => {
+      if (err) return next(err);
+      
+      if (results.length > 0) {
+        // Se já existir um usuário com este e-mail
+        return res.status(400).json({
+          error: 'E-mail já cadastrado. Tente usar outro e-mail.',
+        });
+      }
+
     const hashedPassword = bcrypt.hashSync(senha, 10);
     const createUserQuery =
       "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
