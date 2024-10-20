@@ -44,15 +44,17 @@ exports.createAthlete = async (req, res, next) => {
 
     console.log("Recebendo dados para criar atleta:", req.body);
 
-    // Verifica se o email já existe
-    checkEmailExists(email, (err, emailExists) => {
+    // Verifica se o email já existe diretamente no código
+    const checkEmailQuery = "SELECT * FROM usuarios WHERE email = ?";
+    connection.pool.query(checkEmailQuery, [email], (err, results) => {
       if (err) {
-        console.error("Erro ao verificar o e-mail:", err); // Adiciona log de erro
-        return next(err); // Passa o erro ao middleware de erro
+        console.error("Erro ao verificar o e-mail:", err);
+        return next(err);
       }
 
-      if (emailExists) {
-        console.log("E-mail já cadastrado:", email); // Adiciona log de e-mail já existente
+      if (results.length > 0) {
+        // Se já existir um usuário com este e-mail
+        console.log("E-mail já cadastrado:", email);
         return res.status(400).json({
           error: "E-mail já cadastrado. Tente usar outro e-mail.",
         });
@@ -63,22 +65,22 @@ exports.createAthlete = async (req, res, next) => {
       const createUserQuery =
         "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
 
-      connection.query(
+      connection.pool.query(
         createUserQuery,
         [nome, email, hashedPassword, "atleta"],
         (err, result) => {
           if (err) {
-            console.error("Erro ao criar usuário:", err); // Loga erro de inserção
-            return next(err); // Passa o erro ao middleware de erro
+            console.error("Erro ao criar usuário:", err);
+            return next(err);
           }
 
           const usuarioId = result.insertId;
-          console.log("Usuário cadastrado com ID:", usuarioId); // Log de sucesso na criação do usuário
+          console.log("Usuário cadastrado com ID:", usuarioId);
 
           const createAthleteQuery =
             "INSERT INTO atletas (usuario_id, idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-          connection.query(
+          connection.pool.query(
             createAthleteQuery,
             [
               usuarioId,
@@ -93,11 +95,11 @@ exports.createAthlete = async (req, res, next) => {
             ],
             (err, result) => {
               if (err) {
-                console.error("Erro ao criar atleta:", err); // Log de erro na criação do atleta
-                return next(err); // Passa o erro ao middleware de erro
+                console.error("Erro ao criar atleta:", err);
+                return next(err);
               }
 
-              console.log("Atleta cadastrado com sucesso!"); // Log de sucesso na criação do atleta
+              console.log("Atleta cadastrado com sucesso!");
               res
                 .status(201)
                 .json({ message: "Atleta cadastrado com sucesso!" });
@@ -107,8 +109,8 @@ exports.createAthlete = async (req, res, next) => {
       );
     });
   } catch (error) {
-    console.error("Erro inesperado:", error); // Loga erros inesperados
-    next(error); // Em caso de erro inesperado, passa o erro para o errorHandler
+    console.error("Erro inesperado:", error);
+    next(error);
   }
 };
 
