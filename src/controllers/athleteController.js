@@ -119,7 +119,7 @@ exports.getAthleteProfile = (req, res) => {
   const { atletaId } = req.params;
 
   const query = `
-    SELECT u.nome, a.idade, a.posicao, a.altura, a.peso, a.cidade, a.estado, a.nivel, a.selo_qualidade 
+    SELECT a.id, u.nome, a.idade, a.posicao, a.altura, a.peso, a.cidade, a.estado, a.nivel, a.selo_qualidade 
     FROM atletas a 
     JOIN usuarios u ON a.usuario_id = u.id 
     WHERE a.id = ?`;
@@ -140,7 +140,7 @@ exports.getAthleteProfile = (req, res) => {
 // Listar todos os atletas
 exports.listAthletes = (req, res) => {
   const query = `
-    SELECT u.nome, a.idade, a.posicao, a.altura, a.peso, a.cidade, a.estado, a.nivel, a.selo_qualidade 
+    SELECT a.id, u.nome, a.idade, a.posicao, a.altura, a.peso, a.cidade, a.estado, a.nivel, a.selo_qualidade 
     FROM atletas a 
     JOIN usuarios u ON a.usuario_id = u.id`;
 
@@ -159,7 +159,7 @@ exports.getAthlete = (req, res) => {
   const { id } = req.params;
 
   const query = `
-    SELECT u.nome, a.idade, a.posicao, a.altura, a.peso, a.cidade, a.estado, a.nivel, a.selo_qualidade 
+    SELECT a.id, u.nome, a.idade, a.posicao, a.altura, a.peso, a.cidade, a.estado, a.nivel, a.selo_qualidade 
     FROM atletas a 
     JOIN usuarios u ON a.usuario_id = u.id 
     WHERE a.id = ?`;
