@@ -13,6 +13,7 @@ const errorHandler = require("./src/middleware/errorHandler");
 // Importar as rotas
 const athleteRoutes = require("./src/routes/athleteRoutes");
 const authRoutes = require("./src/routes/authRoutes");
+const midiasRoutes = require("./routes/midias");
 
 // Inicializar o Express
 const app = express();
@@ -28,6 +29,7 @@ app.use(morgan("combined")); // 'combined' é um formato padrão de log detalhad
 // Definir as rotas da API
 app.use("/api/athletes", athleteRoutes); // Rotas para atletas
 app.use("/api/auth", authRoutes); // Rotas de autenticação
+app.use("/api/midias", midiasRoutes);
 
 // Middleware de tratamento de erros (depois de todas as rotas)
 app.use(errorHandler);
