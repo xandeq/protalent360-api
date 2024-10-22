@@ -13,7 +13,7 @@ const errorHandler = require("./src/middleware/errorHandler");
 // Importar as rotas
 const athleteRoutes = require("./src/routes/athleteRoutes");
 const authRoutes = require("./src/routes/authRoutes");
-const midiasRoutes = require("./routes/midiasRoutes");
+const midiasRoutes = require("./src/routes/midiasRoutes");
 
 // Inicializar o Express
 const app = express();
