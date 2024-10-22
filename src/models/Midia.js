@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database"); // Configuração do Sequelize
+const sequelize = require("../config/db"); // Configuração do Sequelize
 
 const Midia = sequelize.define(
   "Midia",
