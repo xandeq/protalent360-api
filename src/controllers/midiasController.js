@@ -1,6 +1,5 @@
-const pool = require("../config/db"); // Importa o pool de conexões do MySQL
+const { createMidia, getMidiaById } = require("../models/Midia");
 
-// Função para fazer o upload da mídia
 exports.uploadMidia = async (req, res) => {
   try {
     const { atletaId, tipo } = req.body;
@@ -9,22 +8,15 @@ exports.uploadMidia = async (req, res) => {
       return res.status(400).json({ message: "Nenhum arquivo enviado." });
     }
 
-    const url = req.file.location; // URL do arquivo no S3
+    // Cria a mídia no banco de dados
+    const midiaId = await createMidia(atletaId, tipo, req.file.location);
 
-    // Consultar o banco de dados para inserir a mídia
-    const sql = `INSERT INTO midias (atletaId, tipo, url) VALUES (?, ?, ?)`;
-    const values = [atletaId, tipo, url];
-
-    // Executar a consulta
-    const [result] = await pool.execute(sql, values);
-
-    // Retornar o resultado
     res.status(201).json({
       message: "Mídia enviada com sucesso.",
-      midiaId: result.insertId,
+      midiaId,
       atletaId,
       tipo,
-      url,
+      url: req.file.location,
     });
   } catch (error) {
     console.error("Erro ao enviar mídia: ", error);
