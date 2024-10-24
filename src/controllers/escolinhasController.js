@@ -20,7 +20,7 @@ exports.cadastrarEscolinha = async (req, res) => {
             INSERT INTO escolinhas (nome, cidade, estado, pais, categorias, redes_sociais, descricao, infraestrutura, emblemas_ranking)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    await db.execute(query, [
+    await connection.pool.query(query, [
       nome,
       cidade,
       estado,
