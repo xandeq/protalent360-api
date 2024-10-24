@@ -1,4 +1,4 @@
-const db = require("../config/db"); // Importa conexão com banco
+const connection = require("../config/db"); // Importa conexão com banco
 
 // Função para criar escolinha
 exports.cadastrarEscolinha = async (req, res) => {
@@ -42,7 +42,7 @@ exports.cadastrarEscolinha = async (req, res) => {
 exports.listarEscolinhas = (req, res) => {
   const query = "SELECT * FROM escolinhas";
 
-  pool.query(query, (error, results) => {
+  connection.pool.query(query, (error, results) => {
     if (error) {
       return res
         .status(500)
