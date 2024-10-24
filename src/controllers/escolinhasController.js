@@ -38,3 +38,16 @@ exports.cadastrarEscolinha = async (req, res) => {
     res.status(500).json({ message: "Erro no servidor" });
   }
 };
+
+exports.listarEscolinhas = (req, res) => {
+  const query = "SELECT * FROM escolinhas";
+
+  pool.query(query, (error, results) => {
+    if (error) {
+      return res
+        .status(500)
+        .json({ message: "Erro ao listar escolinhas", error });
+    }
+    res.status(200).json(results);
+  });
+};
