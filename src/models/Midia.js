@@ -1,17 +1,17 @@
 const pool = require("../config/db"); // Pool de conexões MySQL
 
 // Função para criar uma nova mídia
+// Função para criar um registro de mídia no banco de dados
 const createMidia = async (atletaId, tipo, url) => {
-  const sql = `INSERT INTO midias (atletaId, tipo, url) VALUES (?, ?, ?)`;
-  const values = [atletaId, tipo, url];
+  const [result] = await db.query(
+    "INSERT INTO midias (atletaId, tipo, url) VALUES (?, ?, ?)",
+    [atletaId, tipo, url]
+  );
+  return result.insertId;
+};
 
-  try {
-    const [result] = await pool.execute(sql, values);
-    return result.insertId; // Retorna o ID da nova mídia criada
-  } catch (error) {
-    console.error("Erro ao criar mídia:", error);
-    throw error;
-  }
+module.exports = {
+  createMidia,
 };
 
 // Função para obter uma mídia por ID
