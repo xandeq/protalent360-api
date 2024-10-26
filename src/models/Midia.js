@@ -4,7 +4,7 @@ const connection = require("../config/db"); // Pool de conexões MySQL
 // Função para criar um registro de mídia no banco de dados
 const createMidia = async (atletaId, tipo, url) => {
   const [result] = await connection.query(
-    "INSERT INTO midias (atletaId, tipo, url) VALUES (?, ?, ?)",
+    "INSERT INTO midias (atleta_id, tipo, url) VALUES (?, ?, ?)",
     [atletaId, tipo, url]
   );
   return result.insertId;
