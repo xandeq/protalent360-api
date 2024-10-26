@@ -7,7 +7,6 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
 });
 
-
 exports.uploadMidia = async (req, res) => {
   try {
     const { atletaId, tipo } = req.body;
@@ -36,7 +35,10 @@ exports.uploadMidia = async (req, res) => {
 exports.getPresignedUrl = async (req, res) => {
   try {
     const { atletaId, tipo, fileName, fileType } = req.body;
-
+    console.log("atletaId:", atletaId);
+    console.log("tipo:", tipo);
+    console.log("fileName:", fileName);
+    console.log("fileType:", fileType);s
     if (!fileName || !fileType) {
       return res
         .status(400)
@@ -70,6 +72,22 @@ exports.saveMidiaRecord = async (req, res) => {
     console.log("atletaId:", atletaId);
     console.log("tipo:", tipo);
     console.log("s3Url:", s3Url);
+
+    // Verificar se os campos necessários estão presentes
+    // Verificar se o campo atletaId está presente
+    if (!atletaId) {
+      return res.status(400).json({ error: "Campo 'atletaId' está faltando" });
+    }
+
+    // Verificar se o campo tipo está presente
+    if (!tipo) {
+      return res.status(400).json({ error: "Campo 'tipo' está faltando" });
+    }
+
+    // Verificar se o campo s3Url está presente
+    if (!s3Url) {
+      return res.status(400).json({ error: "Campo 's3Url' está faltando" });
+    }
 
     // Criar a entrada de mídia no banco de dados
     const midiaId = await createMidia(
