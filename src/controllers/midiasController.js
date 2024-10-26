@@ -38,7 +38,8 @@ exports.getPresignedUrl = async (req, res) => {
     console.log("atletaId:", atletaId);
     console.log("tipo:", tipo);
     console.log("fileName:", fileName);
-    console.log("fileType:", fileType);s
+    console.log("fileType:", fileType);
+    s;
     if (!fileName || !fileType) {
       return res
         .status(400)
@@ -57,10 +58,29 @@ exports.getPresignedUrl = async (req, res) => {
 
     res.status(200).json({ presignedUrl, atletaId, tipo, s3Url: params.Key });
   } catch (error) {
-    console.error("Erro ao gerar URL pré-assinada: ", error);
-    res
-      .status(500)
-      .json({ message: "Erro no servidor ao gerar a URL pré-assinada." });
+    console.error("Erro ao gerar URL pré-assinada: ", {
+      message: error.message,
+      stack: error.stack,
+      code: error.code,
+      time: error.time,
+      region: error.region,
+      hostname: error.hostname,
+      retryable: error.retryable,
+      statusCode: error.statusCode,
+      requestId: error.requestId,
+      extendedRequestId: error.extendedRequestId,
+      cfId: error.cfId,
+    });
+
+    res.status(500).json({
+      message: "Erro no servidor ao gerar a URL pré-assinada.",
+      error: {
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode,
+        requestId: error.requestId,
+      },
+    });
   }
 };
 
