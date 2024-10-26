@@ -39,7 +39,6 @@ exports.getPresignedUrl = async (req, res) => {
     console.log("tipo:", tipo);
     console.log("fileName:", fileName);
     console.log("fileType:", fileType);
-    s;
     if (!fileName || !fileType) {
       return res
         .status(400)
