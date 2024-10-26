@@ -65,7 +65,11 @@ exports.getPresignedUrl = async (req, res) => {
 // Função para criar registro da mídia no banco de dados
 exports.saveMidiaRecord = async (req, res) => {
   try {
+    console.log("Body:", req.body);
     const { atletaId, tipo, s3Url } = req.body;
+    console.log("atletaId:", atletaId);
+    console.log("tipo:", tipo);
+    console.log("s3Url:", s3Url);
 
     // Criar a entrada de mídia no banco de dados
     const midiaId = await createMidia(
