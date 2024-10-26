@@ -53,7 +53,7 @@ exports.getPresignedUrl = async (req, res) => {
       ContentType: fileType,
       ACL: "public-read", // Permissão de leitura pública
     };
-
+    console.log("Params Bucket:", params);
     const presignedUrl = await s3.getSignedUrlPromise("putObject", params);
 
     res.status(200).json({ presignedUrl, atletaId, tipo, s3Url: params.Key });
