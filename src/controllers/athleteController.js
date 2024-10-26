@@ -98,11 +98,11 @@ exports.createAthlete = async (req, res, next) => {
                 console.error("Erro ao criar atleta:", err);
                 return next(err);
               }
-
+              const atletaId = result.insertId;
               console.log("Atleta cadastrado com sucesso!");
               res
                 .status(201)
-                .json({ message: "Atleta cadastrado com sucesso!" });
+                .json({ message: "Atleta cadastrado com sucesso!", atletaId: atletaId });
             }
           );
         }
