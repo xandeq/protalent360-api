@@ -69,9 +69,6 @@ exports.createClub = async (req, res, next) => {
   }
 };
 
-// Importa a conexão do banco de dados
-const connection = require("../config/db");
-
 exports.getClubs = async (req, res) => {
   try {
     connection.pool.query("SELECT * FROM clubes", (err, rows) => {
