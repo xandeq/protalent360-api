@@ -1,5 +1,4 @@
-// clubController.js
-const connection = require("../config/db"); // Conexão com o banco de dados MySQL
+const connection = require("../config/db");
 
 exports.createClub = async (req, res, next) => {
   try {
