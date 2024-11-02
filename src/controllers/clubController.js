@@ -69,24 +69,32 @@ exports.createClub = async (req, res, next) => {
   }
 };
 
+// Importa a conexão do banco de dados
+const connection = require("../config/db");
+
 exports.getClubs = async (req, res) => {
   try {
-    const [rows] = await connection.pool.query("SELECT * FROM clubes");
-    res.status(200).json(rows);
-  } catch (error) {
-    console.error("Erro ao getClubs: ", {
-      message: error.message,
-      stack: error.stack,
-      code: error.code,
-      errno: error.errno,
-      sqlMessage: error.sqlMessage,
-      sqlState: error.sqlState,
-      index: error.index,
-      sql: error.sql,
-    });
+    connection.pool.query("SELECT * FROM clubes", (err, rows) => {
+      if (err) {
+        console.error("Erro ao obter clubes:", err);
+        return res.status(500).json({
+          message: "Erro no servidor ao obter os clubes.",
+          error: {
+            message: err.message,
+            code: err.code,
+            errno: err.errno,
+            sqlMessage: err.sqlMessage,
+            sqlState: err.sqlState,
+          },
+        });
+      }
 
+      res.status(200).json(rows);
+    });
+  } catch (error) {
+    console.error("Erro inesperado ao getClubs:", error);
     res.status(500).json({
-      message: "Erro no servidor ao getClubs.",
+      message: "Erro inesperado no servidor ao obter clubes.",
       error: {
         message: error.message,
         code: error.code,
