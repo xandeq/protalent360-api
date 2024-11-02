@@ -10,8 +10,28 @@ exports.createClub = async (req, res) => {
         );
         res.status(201).json({ id: result.insertId, message: "Clube criado com sucesso" });
     } catch (error) {
-        res.status(500).json({ error: "Erro ao criar o clube" });
-    }
+        console.error("Erro ao createClub: ", {
+          message: error.message,
+          stack: error.stack,
+          code: error.code,
+          errno: error.errno,
+          sqlMessage: error.sqlMessage,
+          sqlState: error.sqlState,
+          index: error.index,
+          sql: error.sql
+        });
+    
+        res.status(500).json({
+          message: "Erro no servidor ao createClub.",
+          error: {
+            message: error.message,
+            code: error.code,
+            errno: error.errno,
+            sqlMessage: error.sqlMessage,
+            sqlState: error.sqlState
+          }
+        });
+      }
 };
 
 exports.getClubs = async (req, res) => {
@@ -19,8 +39,28 @@ exports.getClubs = async (req, res) => {
         const [rows] = await connection.pool.query('SELECT * FROM clubes');
         res.status(200).json(rows);
     } catch (error) {
-        res.status(500).json({ error: "Erro ao buscar os clubes" });
-    }
+        console.error("Erro ao getClubs: ", {
+          message: error.message,
+          stack: error.stack,
+          code: error.code,
+          errno: error.errno,
+          sqlMessage: error.sqlMessage,
+          sqlState: error.sqlState,
+          index: error.index,
+          sql: error.sql
+        });
+    
+        res.status(500).json({
+          message: "Erro no servidor ao getClubs.",
+          error: {
+            message: error.message,
+            code: error.code,
+            errno: error.errno,
+            sqlMessage: error.sqlMessage,
+            sqlState: error.sqlState
+          }
+        });
+      }
 };
 
 exports.getClubById = async (req, res) => {
@@ -30,8 +70,28 @@ exports.getClubById = async (req, res) => {
         if (rows.length === 0) return res.status(404).json({ error: "Clube não encontrado" });
         res.status(200).json(rows[0]);
     } catch (error) {
-        res.status(500).json({ error: "Erro ao buscar o clube" });
-    }
+        console.error("Erro ao getClubById: ", {
+          message: error.message,
+          stack: error.stack,
+          code: error.code,
+          errno: error.errno,
+          sqlMessage: error.sqlMessage,
+          sqlState: error.sqlState,
+          index: error.index,
+          sql: error.sql
+        });
+    
+        res.status(500).json({
+          message: "Erro no servidor ao getClubById.",
+          error: {
+            message: error.message,
+            code: error.code,
+            errno: error.errno,
+            sqlMessage: error.sqlMessage,
+            sqlState: error.sqlState
+          }
+        });
+      }
 };
 
 exports.updateClub = async (req, res) => {
@@ -44,8 +104,28 @@ exports.updateClub = async (req, res) => {
         );
         res.status(200).json({ message: "Clube atualizado com sucesso" });
     } catch (error) {
-        res.status(500).json({ error: "Erro ao atualizar o clube" });
-    }
+        console.error("Erro ao updateClub: ", {
+          message: error.message,
+          stack: error.stack,
+          code: error.code,
+          errno: error.errno,
+          sqlMessage: error.sqlMessage,
+          sqlState: error.sqlState,
+          index: error.index,
+          sql: error.sql
+        });
+    
+        res.status(500).json({
+          message: "Erro no servidor ao updateClub.",
+          error: {
+            message: error.message,
+            code: error.code,
+            errno: error.errno,
+            sqlMessage: error.sqlMessage,
+            sqlState: error.sqlState
+          }
+        });
+      }
 };
 
 exports.deleteClub = async (req, res) => {
@@ -54,6 +134,26 @@ exports.deleteClub = async (req, res) => {
         await connection.pool.query('DELETE FROM clubes WHERE id = ?', [id]);
         res.status(200).json({ message: "Clube deletado com sucesso" });
     } catch (error) {
-        res.status(500).json({ error: "Erro ao deletar o clube" });
-    }
+        console.error("Erro ao buscar atleta: ", {
+          message: error.message,
+          stack: error.stack,
+          code: error.code,
+          errno: error.errno,
+          sqlMessage: error.sqlMessage,
+          sqlState: error.sqlState,
+          index: error.index,
+          sql: error.sql
+        });
+    
+        res.status(500).json({
+          message: "Erro no servidor ao deleteClub.",
+          error: {
+            message: error.message,
+            code: error.code,
+            errno: error.errno,
+            sqlMessage: error.sqlMessage,
+            sqlState: error.sqlState
+          }
+        });
+      }
 };
