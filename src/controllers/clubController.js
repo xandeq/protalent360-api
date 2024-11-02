@@ -4,7 +4,7 @@ const connection = require("../config/db"); // Conexão com o banco de dados MyS
 exports.createClub = async (req, res) => {
     try {
         const { nome, cidade, estado, divisao, descricao, redes_sociais, instalacoes, agenda_eventos, area_interacao } = req.body;
-        const result = await connection.pool.query(
+        const [result] = await pool.query(
             'INSERT INTO clubes (nome, cidade, estado, divisao, descricao, redes_sociais, instalacoes, agenda_eventos, area_interacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [nome, cidade, estado, divisao, descricao, JSON.stringify(redes_sociais), instalacoes, agenda_eventos, area_interacao]
         );
