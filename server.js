@@ -15,6 +15,7 @@ const athleteRoutes = require("./src/routes/athleteRoutes");
 const authRoutes = require("./src/routes/authRoutes");
 const midiasRoutes = require("./src/routes/midiasRoutes");
 const escolinhasRoutes = require('./src/routes/escolinhasRoutes');
+const clubRoutes = require('./src/routes/clubRoutes');
 
 // Inicializar o Express
 const app = express();
@@ -32,6 +33,7 @@ app.use("/api/athletes", athleteRoutes); // Rotas para atletas
 app.use("/api/auth", authRoutes); // Rotas de autenticação
 app.use("/api/midias", midiasRoutes);
 app.use('/api/escolinhas', escolinhasRoutes);
+app.use('/api/clubs', clubRoutes);
 
 // Middleware de tratamento de erros (depois de todas as rotas)
 app.use(errorHandler);
