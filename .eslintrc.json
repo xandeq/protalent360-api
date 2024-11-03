@@ -1,0 +1,17 @@
+{
+    "env": {
+      "node": true,
+      "es2021": true
+    },
+    "parserOptions": {
+      "sourceType": "script" // Isso indica que estamos usando CommonJS
+    },
+    "rules": {
+      "no-undef": "off",                // Desativa o erro para variáveis indefinidas
+      "import/no-commonjs": "off",      // Permite CommonJS
+      "@typescript-eslint/no-var-requires": "off", // Ignora requerimentos do TS, se aplicável
+      "global-require": "off",          // Permite require globalmente
+      "no-restricted-syntax": "off"     // Remove restrições sobre require/module.exports
+    }
+  }
+  
