@@ -1,13 +1,13 @@
-const AWS = require("aws-sdk");
-const { createMidia } = require("../models/Midia");
+import { S3 } from "aws-sdk";
+import { createMidia } from "../models/Midia";
 
-const s3 = new AWS.S3({
+const s3 = new S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION,
 });
 
-exports.uploadMidia = async (req, res) => {
+export async function uploadMidia(req, res) {
   try {
     const { atletaId, tipo } = req.body;
 
@@ -29,10 +29,10 @@ exports.uploadMidia = async (req, res) => {
     console.error("Erro ao enviar mídia: ", error);
     res.status(500).json({ message: "Erro no servidor ao enviar a mídia." });
   }
-};
+}
 
 // Função para gerar URL pré-assinada para upload
-exports.getPresignedUrl = async (req, res) => {
+export async function getPresignedUrl(req, res) {
   try {
     const { atletaId, tipo, fileName, fileType } = req.body;
     console.log("atletaId:", atletaId);
@@ -81,10 +81,10 @@ exports.getPresignedUrl = async (req, res) => {
       },
     });
   }
-};
+}
 
 // Função para criar registro da mídia no banco de dados
-exports.saveMidiaRecord = async (req, res) => {
+export async function saveMidiaRecord(req, res) {
   try {
     console.log("Body:", req.body);
     const { atletaId, tipo, s3Url } = req.body;
@@ -126,4 +126,4 @@ exports.saveMidiaRecord = async (req, res) => {
     console.error("Erro ao salvar registro de mídia: ", error);
     res.status(500).json({ message: "Erro no servidor ao salvar a mídia." });
   }
-};
+}

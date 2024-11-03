@@ -15,4 +15,4 @@ router.get('/:id', getAthlete);
 router.put('/update/:id', updateAthlete);
 router.delete('/delete/:id', deleteAthlete);
 
-module.exports = router;
+export default router;

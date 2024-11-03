@@ -8,4 +8,4 @@ const { signup, login } = require('../controllers/authController');
 router.post('/signup', signup); // Rota de cadastro de usuário
 router.post('/login', login); // Rota de login de usuário
 
-module.exports = router;
+export default router;

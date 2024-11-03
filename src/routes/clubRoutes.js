@@ -1,12 +1,12 @@
 // clubRoutes.js
-const express = require('express');
-const router = express.Router();
-const clubController = require('../controllers/clubController');
+import { Router } from 'express';
+const router = Router();
+import { createClub, getClubs, getClubById, updateClub, deleteClub } from '../controllers/clubController';
 
-router.post('/create', clubController.createClub);
-router.get('/list', clubController.getClubs);
-router.get('/:id', clubController.getClubById);
-router.put('/:id', clubController.updateClub);
-router.delete('/:id', clubController.deleteClub);
+router.post('/create', createClub);
+router.get('/list', getClubs);
+router.get('/:id', getClubById);
+router.put('/:id', updateClub);
+router.delete('/:id', deleteClub);
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
 // src/middleware/errorHandler.js
-module.exports = (err, req, res, next) => {
+module.exports = (err, req, res) => {
     // Logar informações detalhadas do erro no console para facilitar a depuração
     console.error('--- Início do Log de Erro ---');
     console.error('Mensagem de erro:', err.message);

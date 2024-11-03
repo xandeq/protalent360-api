@@ -1,6 +1,6 @@
-const connection = require("../config/db");
+import { pool } from "../config/db";
 
-exports.createClub = async (req, res, next) => {
+export async function createClub(req, res, next) {
   try {
     const {
       nome,
@@ -17,7 +17,7 @@ exports.createClub = async (req, res, next) => {
     console.log("Recebendo dados para criar clube:", req.body);
 
     const checkClubQuery = "SELECT * FROM clubes WHERE nome = ? AND cidade = ?";
-    connection.pool.query(checkClubQuery, [nome, cidade], (err, results) => {
+    pool.query(checkClubQuery, [nome, cidade], (err, results) => {
       if (err) {
         console.error("Erro ao verificar o clube:", err);
         return next(err);
@@ -34,7 +34,7 @@ exports.createClub = async (req, res, next) => {
       const createClubQuery =
         "INSERT INTO clubes (nome, cidade, estado, divisao, descricao, redes_sociais, instalacoes, agenda_eventos, area_interacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-      connection.pool.query(
+      pool.query(
         createClubQuery,
         [
           nome,
@@ -67,11 +67,11 @@ exports.createClub = async (req, res, next) => {
     console.error("Erro inesperado:", error);
     next(error);
   }
-};
+}
 
-exports.getClubs = async (req, res) => {
+export async function getClubs(req, res) {
   try {
-    connection.pool.query("SELECT * FROM clubes", (err, rows) => {
+    pool.query("SELECT * FROM clubes", (err, rows) => {
       if (err) {
         console.error("Erro ao obter clubes:", err);
         return res.status(500).json({
@@ -101,12 +101,12 @@ exports.getClubs = async (req, res) => {
       },
     });
   }
-};
+}
 
-exports.getClubById = async (req, res) => {
+export async function getClubById(req, res) {
   try {
     const { id } = req.params;
-    const [rows] = await connection.pool.query(
+    const [rows] = await pool.query(
       "SELECT * FROM clubes WHERE id = ?",
       [id]
     );
@@ -136,9 +136,9 @@ exports.getClubById = async (req, res) => {
       },
     });
   }
-};
+}
 
-exports.updateClub = async (req, res) => {
+export async function updateClub(req, res) {
   try {
     const { id } = req.params;
     const {
@@ -152,7 +152,7 @@ exports.updateClub = async (req, res) => {
       agenda_eventos,
       area_interacao,
     } = req.body;
-    await connection.pool.query(
+    await pool.query(
       "UPDATE clubes SET nome = ?, cidade = ?, estado = ?, divisao = ?, descricao = ?, redes_sociais = ?, instalacoes = ?, agenda_eventos = ?, area_interacao = ? WHERE id = ?",
       [
         nome,
@@ -191,12 +191,12 @@ exports.updateClub = async (req, res) => {
       },
     });
   }
-};
+}
 
-exports.deleteClub = async (req, res) => {
+export async function deleteClub(req, res) {
   try {
     const { id } = req.params;
-    await connection.pool.query("DELETE FROM clubes WHERE id = ?", [id]);
+    await pool.query("DELETE FROM clubes WHERE id = ?", [id]);
     res.status(200).json({ message: "Clube deletado com sucesso" });
   } catch (error) {
     console.error("Erro ao buscar atleta: ", {
@@ -221,4 +221,4 @@ exports.deleteClub = async (req, res) => {
       },
     });
   }
-};
+}

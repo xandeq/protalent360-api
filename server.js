@@ -1,14 +1,14 @@
 // app.js - Arquivo principal da API Node.js
-
 // Carrega as variáveis de ambiente do arquivo .env
-require("dotenv").config();
+import errorHandler from "./src/middleware/errorHandler";
+import dotenv from "dotenv";
+dotenv.config();
 
 // Importar as dependências necessárias
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const errorHandler = require("./src/middleware/errorHandler");
+import express from "express";
+import cors from "cors";
+import { json, urlencoded } from "body-parser";
+import morgan from "morgan";
 
 // Importar as rotas
 const athleteRoutes = require("./src/routes/athleteRoutes");
@@ -22,8 +22,8 @@ const app = express();
 
 // Middleware
 app.use(cors()); // Permitir requisições de qualquer domínio
-app.use(bodyParser.json()); // Parsear requisições do tipo JSON
-app.use(bodyParser.urlencoded({ extended: true })); // Parsear requisições do tipo URL-encoded
+app.use(json()); // Parsear requisições do tipo JSON
+app.use(urlencoded({ extended: true })); // Parsear requisições do tipo URL-encoded
 
 // Adicionando o Morgan para logar as requisições HTTP (antes das rotas)
 app.use(morgan("combined")); // 'combined' é um formato padrão de log detalhado

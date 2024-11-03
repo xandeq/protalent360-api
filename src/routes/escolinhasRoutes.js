@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const escolinhasController = require('../controllers/escolinhasController');
+import { Router } from 'express';
+const router = Router();
+import { cadastrarEscolinha, listarEscolinhas } from '../controllers/escolinhasController';
 
 // Rota para cadastro de escolinha
-router.post('/cadastrar', escolinhasController.cadastrarEscolinha);
-router.get('/listar', escolinhasController.listarEscolinhas);
+router.post('/cadastrar', cadastrarEscolinha);
+router.get('/listar', listarEscolinhas);
 
-module.exports = router;
+export default router;

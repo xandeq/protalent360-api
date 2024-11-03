@@ -1,32 +1,12 @@
 // controllers/athleteController.js
 
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const connection = require("../config/db"); // Conexão com o banco de dados MySQL
-const { checkEmailExists } = require("../helpers/userHelper");
+import { hashSync } from "bcryptjs";
+import { pool } from "../config/db"; // Conexão com o banco de dados MySQL
 
 // Função auxiliar para cadastrar um usuário
-const createUser = (nome, email, senha, tipo, callback) => {
-  const hashedPassword = bcrypt.hashSync(senha, 10);
-
-  const query =
-    "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
-  connection.pool.query(
-    query,
-    [nome, email, hashedPassword, tipo],
-    (err, result) => {
-      if (err) {
-        console.error("Erro ao cadastrar usuário:", err);
-        callback(err, null);
-      } else {
-        callback(null, result.insertId); // Retorna o ID do usuário criado
-      }
-    }
-  );
-};
 
 // Criar um novo atleta
-exports.createAthlete = async (req, res, next) => {
+export async function createAthlete(req, res, next) {
   try {
     const {
       nome,
@@ -46,7 +26,7 @@ exports.createAthlete = async (req, res, next) => {
 
     // Verifica se o email já existe diretamente no código
     const checkEmailQuery = "SELECT * FROM usuarios WHERE email = ?";
-    connection.pool.query(checkEmailQuery, [email], (err, results) => {
+    pool.query(checkEmailQuery, [email], (err, results) => {
       if (err) {
         console.error("Erro ao verificar o e-mail:", err);
         return next(err);
@@ -61,11 +41,11 @@ exports.createAthlete = async (req, res, next) => {
       }
 
       // Cria o usuário se o e-mail não existir
-      const hashedPassword = bcrypt.hashSync(senha, 10);
+      const hashedPassword = hashSync(senha, 10);
       const createUserQuery =
         "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
 
-      connection.pool.query(
+      pool.query(
         createUserQuery,
         [nome, email, hashedPassword, "atleta"],
         (err, result) => {
@@ -80,7 +60,7 @@ exports.createAthlete = async (req, res, next) => {
           const createAthleteQuery =
             "INSERT INTO atletas (usuario_id, idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-          connection.pool.query(
+          pool.query(
             createAthleteQuery,
             [
               usuarioId,
@@ -112,10 +92,10 @@ exports.createAthlete = async (req, res, next) => {
     console.error("Erro inesperado:", error);
     next(error);
   }
-};
+}
 
 // controllers/athleteController.js
-exports.getAthleteProfile = (req, res) => {
+export function getAthleteProfile(req, res) {
   const { atletaId } = req.params;
 
   const query = `
@@ -124,7 +104,7 @@ exports.getAthleteProfile = (req, res) => {
     JOIN usuarios u ON a.usuario_id = u.id 
     WHERE a.id = ?`;
 
-  connection.pool.query(query, [atletaId], (err, results) => {
+  pool.query(query, [atletaId], (err, results) => {
     if (err)
       return res.status(500).json({ error: "Erro ao buscar perfil do atleta" });
 
@@ -135,16 +115,16 @@ exports.getAthleteProfile = (req, res) => {
     const atleta = results[0];
     res.status(200).json(atleta);
   });
-};
+}
 
 // Listar todos os atletas
-exports.listAthletes = (req, res) => {
+export function listAthletes(req, res) {
   const query = `
     SELECT a.id, u.nome, a.idade, a.posicao, a.altura, a.peso, a.cidade, a.estado, a.nivel, a.selo_qualidade 
     FROM atletas a 
     JOIN usuarios u ON a.usuario_id = u.id`;
 
-  connection.pool.query(query, (err, results) => {
+  pool.query(query, (err, results) => {
     if (err) {
       console.error("Erro ao buscar lista de atletas:", err);
       return res.status(500).json({ error: "Erro ao buscar lista de atletas" });
@@ -152,10 +132,10 @@ exports.listAthletes = (req, res) => {
 
     res.status(200).json(results);
   });
-};
+}
 
 // Buscar um atleta por ID
-exports.getAthlete = (req, res) => {
+export function getAthlete(req, res) {
   const { id } = req.params;
 
   const query = `
@@ -164,7 +144,7 @@ exports.getAthlete = (req, res) => {
     JOIN usuarios u ON a.usuario_id = u.id 
     WHERE a.id = ?`;
 
-  connection.pool.query(query, [id], (err, results) => {
+  pool.query(query, [id], (err, results) => {
     if (err) {
       console.error("Erro ao buscar atleta:", err);
       return res.status(500).json({ error: "Erro ao buscar atleta" });
@@ -176,10 +156,10 @@ exports.getAthlete = (req, res) => {
 
     res.status(200).json(results[0]);
   });
-};
+}
 
 // Atualizar um atleta
-exports.updateAthlete = (req, res) => {
+export function updateAthlete(req, res) {
   const { id } = req.params;
   const {
     idade,
@@ -197,7 +177,7 @@ exports.updateAthlete = (req, res) => {
     SET idade = ?, posicao = ?, altura = ?, peso = ?, cidade = ?, estado = ?, nivel = ?, selo_qualidade = ?
     WHERE id = ?`;
 
-  connection.pool.query(
+  pool.query(
     query,
     [idade, posicao, altura, peso, cidade, estado, nivel, selo_qualidade, id],
     (err, result) => {
@@ -213,15 +193,15 @@ exports.updateAthlete = (req, res) => {
       res.status(200).json({ message: "Atleta atualizado com sucesso" });
     }
   );
-};
+}
 
 // Deletar um atleta
-exports.deleteAthlete = (req, res) => {
+export function deleteAthlete(req, res) {
   const { id } = req.params;
 
   const query = "DELETE FROM atletas WHERE id = ?";
 
-  connection.pool.query(query, [id], (err, result) => {
+  pool.query(query, [id], (err, result) => {
     if (err) {
       console.error("Erro ao deletar atleta:", err);
       return res.status(500).json({ error: "Erro ao deletar atleta" });
@@ -233,4 +213,4 @@ exports.deleteAthlete = (req, res) => {
 
     res.status(200).json({ message: "Atleta deletado com sucesso" });
   });
-};
+}
