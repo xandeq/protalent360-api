@@ -1,6 +1,6 @@
 // app.js - Arquivo principal da API Node.js
 // Carrega as variáveis de ambiente do arquivo .env
-const errorHandler = require("./src/middleware/errorHandler");
+import errorHandler from "./src/middleware/errorHandler";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -11,11 +11,11 @@ import { json, urlencoded } from "body-parser";
 import morgan from "morgan";
 
 // Importar as rotas
-import athleteRoutes from "./src/routes/athleteRoutes";
-import authRoutes from "./src/routes/authRoutes";
-import midiasRoutes from "./src/routes/midiasRoutes";
-import escolinhasRoutes from './src/routes/escolinhasRoutes';
-import clubRoutes from './src/routes/clubRoutes';
+import athleteRoutes from "./src/routes/athleteRoutes.js";
+import authRoutes from "./src/routes/authRoutes.js";
+import midiasRoutes from "./src/routes/midiasRoutes.js";
+import escolinhasRoutes from './src/routes/escolinhasRoutes.js';
+import clubRoutes from './src/routes/clubRoutes.js';
 
 // Inicializar o Express
 const app = express();
