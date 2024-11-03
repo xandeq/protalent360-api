@@ -1,15 +1,13 @@
 {
   "env": {
     "node": true,
-    "commonjs": true, // Adiciona suporte explícito para CommonJS
     "es2021": true
   },
   "parserOptions": {
+    "ecmaVersion": 2021,
     "sourceType": "script"
   },
   "rules": {
-    "import/no-commonjs": "off",
-    "no-undef": "off",
-    "import/extensions": "off" // Ignora regras de extensões de importação
+    "import/no-commonjs": "off"
   }
 }

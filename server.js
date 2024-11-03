@@ -1,6 +1,6 @@
 // app.js - Arquivo principal da API Node.js
-import errorHandler from "./src/middleware/errorHandler";
 // Carrega as variáveis de ambiente do arquivo .env
+const errorHandler = require("./src/middleware/errorHandler");
 import dotenv from "dotenv";
 dotenv.config();
 
