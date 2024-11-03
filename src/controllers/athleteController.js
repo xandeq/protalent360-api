@@ -1,10 +1,7 @@
 // controllers/athleteController.js
-
-import { pool } from "../config/db.js";
+import pool from "../config/db.js";
 import bcrypt from 'bcryptjs';
 const { hashSync } = bcrypt;
-
-// Função auxiliar para cadastrar um usuário
 
 // Criar um novo atleta
 export async function createAthlete(req, res, next) {
