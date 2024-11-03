@@ -8,7 +8,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const errorHandler = require("./src/middleware/errorHandler");
+const errorHandler = require("./src/middleware/errorHandler.js");
 
 // Importar as rotas
 const athleteRoutes = require("./src/routes/athleteRoutes");
