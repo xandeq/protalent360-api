@@ -1,6 +1,6 @@
 // helpers/userHelper.js
 
-import { pool } from "../config/db";
+import { pool } from "../config/db.js";
 
 // Função para verificar se o e-mail já existe no banco de dados
 const checkEmailExists = (email, callback) => {

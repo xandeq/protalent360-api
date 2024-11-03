@@ -1,7 +1,7 @@
 // clubRoutes.js
 import { Router } from 'express';
 const router = Router();
-import { createClub, getClubs, getClubById, updateClub, deleteClub } from '../controllers/clubController';
+import { createClub, getClubs, getClubById, updateClub, deleteClub } from '../controllers/clubController.js';
 
 router.post('/create', createClub);
 router.get('/list', getClubs);

@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { upload } from "../middleware/uploadMiddleware";
+import { upload } from "../middleware/uploadMiddleware.js";
 
 // Rota para upload de arquivos de mídia
 router.post("/upload", upload.single("midia"), uploadMidia);

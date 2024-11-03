@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { cadastrarEscolinha, listarEscolinhas } from '../controllers/escolinhasController';
+import { cadastrarEscolinha, listarEscolinhas } from '../controllers/escolinhasController.js';
 
 // Rota para cadastro de escolinha
 router.post('/cadastrar', cadastrarEscolinha);

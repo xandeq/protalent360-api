@@ -2,7 +2,7 @@
 
 import { hashSync, compareSync } from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
-import { pool } from '../config/db'; // Conexão com o banco de dados MySQL
+import { pool } from '../config/db.js'; // Conexão com o banco de dados MySQL
 
 // Registrar um novo usuário
 export function signup(req, res) {

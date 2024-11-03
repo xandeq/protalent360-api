@@ -1,4 +1,4 @@
-import { query as _query } from "../config/db"; // Importa conexão com banco já com Promises
+import { query as _query } from "../config/db.js"; // Importa conexão com banco já com Promises
 
 // Função para criar escolinha
 export async function cadastrarEscolinha(req, res) {
