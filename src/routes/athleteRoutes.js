@@ -1,4 +1,5 @@
 const express = require('express');
+const router = express.Router();
 const {
   createAthlete,
   listAthletes,
@@ -6,8 +7,6 @@ const {
   updateAthlete,
   deleteAthlete,
 } = require('../controllers/athleteController');  // Certifique-se que o caminho está correto
-
-const router = express.Router();
 
 // Definindo as rotas
 router.post('/create', createAthlete);

@@ -12,7 +12,7 @@ const errorHandler = require("./src/middleware/errorHandler");
 
 // Importar as rotas
 const athleteRoutes = require("./src/routes/athleteRoutes");
-const authRoutes = require("./src/routes/authRoutes");
+const authRoutes = require("./src/routes/authRoutes").default;
 const midiasRoutes = require("./src/routes/midiasRoutes");
 const escolinhasRoutes = require('./src/routes/escolinhasRoutes');
 const clubRoutes = require('./src/routes/clubRoutes');
