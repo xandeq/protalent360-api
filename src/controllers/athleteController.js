@@ -1,7 +1,8 @@
 // controllers/athleteController.js
 
-import { hashSync } from "bcryptjs";
-import { pool } from "../config/db.js"; // Conexão com o banco de dados MySQL
+import { pool } from "../config/db.js";
+import bcrypt from 'bcryptjs';
+const { hashSync } = bcrypt;
 
 // Função auxiliar para cadastrar um usuário
 
