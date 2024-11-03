@@ -1,7 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const midiasController = require("../controllers/midiasController");
-const { upload } = require("../middleware/uploadMiddleware");
+import { upload } from "../middleware/uploadMiddleware";
 
 // Rota para upload de arquivos de mídia
 router.post("/upload", upload.single("midia"), uploadMidia);

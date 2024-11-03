@@ -11,11 +11,11 @@ import { json, urlencoded } from "body-parser";
 import morgan from "morgan";
 
 // Importar as rotas
-const athleteRoutes = require("./src/routes/athleteRoutes");
-const authRoutes = require("./src/routes/authRoutes").default;
-const midiasRoutes = require("./src/routes/midiasRoutes");
-const escolinhasRoutes = require('./src/routes/escolinhasRoutes');
-const clubRoutes = require('./src/routes/clubRoutes');
+import athleteRoutes from "./src/routes/athleteRoutes";
+import authRoutes from "./src/routes/authRoutes";
+import midiasRoutes from "./src/routes/midiasRoutes";
+import escolinhasRoutes from './src/routes/escolinhasRoutes';
+import clubRoutes from './src/routes/clubRoutes';
 
 // Inicializar o Express
 const app = express();

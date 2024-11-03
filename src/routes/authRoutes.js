@@ -1,8 +1,9 @@
 // routes/authRoutes.js
 
-const express = require('express');
+import express from 'express';
+import { signup, login } from '../controllers/authController';
+
 const router = express.Router();
-const { signup, login } = require('../controllers/authController');
 
 // Autenticação (login e cadastro)
 router.post('/signup', signup); // Rota de cadastro de usuário
