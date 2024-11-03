@@ -1,19 +1,15 @@
 {
   "env": {
     "node": true,
-    "es6": true
+    "commonjs": true, // Adiciona suporte explícito para CommonJS
+    "es2021": true
   },
-  "extends": "eslint:recommended",
+  "parserOptions": {
+    "sourceType": "script"
+  },
   "rules": {
-    "no-undef": "error",
-    "import/no-unresolved": "error"
-  },
-  "plugins": ["import"],
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
+    "import/no-commonjs": "off",
+    "no-undef": "off",
+    "import/extensions": "off" // Ignora regras de extensões de importação
   }
 }

@@ -1,13 +1,7 @@
-const express = require('express');
-const {
-  createAthlete,
-  listAthletes,
-  getAthlete,
-  updateAthlete,
-  deleteAthlete,
-} = require('../controllers/athleteController');  // Certifique-se que o caminho está correto
+import { Router } from 'express';
+import { createAthlete, listAthletes, getAthlete, updateAthlete, deleteAthlete } from '../controllers/athleteController';  // Certifique-se que o caminho está correto
 
-const router = express.Router();
+const router = Router();
 
 // Definindo as rotas
 router.post('/create', createAthlete);
@@ -16,4 +10,4 @@ router.get('/:id', getAthlete);
 router.put('/update/:id', updateAthlete);
 router.delete('/delete/:id', deleteAthlete);
 
-module.exports = router;
+export default router;

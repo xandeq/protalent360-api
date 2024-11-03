@@ -1,18 +1,16 @@
-const connection = require("../config/db"); // Pool de conexões MySQL
+import { query } from "../config/db"; // Pool de conexões MySQL
 
 // Função para criar uma nova mídia
 // Função para criar um registro de mídia no banco de dados
 const createMidia = async (atletaId, tipo, url) => {
-  const [result] = await connection.query(
+  const [result] = await query(
     "INSERT INTO midias (atleta_id, tipo, url) VALUES (?, ?, ?)",
     [atletaId, tipo, url]
   );
   return result.insertId;
 };
 
-module.exports = {
-  createMidia,
-};
+// Remove this default export
 
 // Função para obter uma mídia por ID
 const getMidiaById = async (midiaId) => {
@@ -29,7 +27,7 @@ const getMidiaById = async (midiaId) => {
 
 // Outras operações como atualização ou exclusão podem ser adicionadas aqui
 
-module.exports = {
+export default {
   createMidia,
   getMidiaById,
 };
