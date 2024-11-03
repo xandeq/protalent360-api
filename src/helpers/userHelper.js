@@ -1,12 +1,12 @@
 // helpers/userHelper.js
 
-const connection = require("../config/db");
+import { pool } from "../config/db";
 
 // Função para verificar se o e-mail já existe no banco de dados
 const checkEmailExists = (email, callback) => {
   const query = "SELECT * FROM usuarios WHERE email = ?";
 
-  connection.pool.query(query, [email], (err, results) => {
+  pool.query(query, [email], (err, results) => {
     if (err) {
       console.error("Erro ao verificar o e-mail:", err);
       return callback(err, null); // Passa o erro para o callback
@@ -21,4 +21,4 @@ const checkEmailExists = (email, callback) => {
   });
 };
 
-module.exports = { checkEmailExists };
+export default { checkEmailExists };
