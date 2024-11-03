@@ -9,7 +9,6 @@ import express from "express";
 import cors from "cors";
 import { json, urlencoded } from "body-parser";
 import morgan from "morgan";
-import errorHandler from "./src/middleware/errorHandler";
 
 // Importar as rotas
 import athleteRoutes from "./src/routes/athleteRoutes";
