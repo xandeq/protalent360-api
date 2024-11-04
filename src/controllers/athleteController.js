@@ -1,6 +1,7 @@
 // controllers/athleteController.js
 import pool from "../config/db.js";
-import { hashSync } from 'bcryptjs';
+import bcrypt from 'bcryptjs';
+const { hashSync } = bcrypt;
 
 
 // Criar um novo atleta
