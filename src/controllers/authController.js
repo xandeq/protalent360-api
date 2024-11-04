@@ -1,6 +1,6 @@
 // authController.js
 
-import { hashSync, compareSync } from 'bcryptjs';
+import { hashSync } from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
 import { pool } from '../config/db.js'; // Conexão com o banco de dados MySQL
 

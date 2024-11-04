@@ -1,7 +1,7 @@
 // controllers/athleteController.js
 import pool from "../config/db.js";
-import bcrypt from 'bcryptjs';
-const { hashSync } = bcrypt;
+import { hashSync } from 'bcryptjs';
+
 
 // Criar um novo atleta
 export async function createAthlete(req, res, next) {
