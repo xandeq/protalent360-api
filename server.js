@@ -7,7 +7,8 @@ dotenv.config();
 // Importar as dependências necessárias
 import express from "express";
 import cors from "cors";
-import { json, urlencoded } from "body-parser";
+import pkg from "body-parser";
+const { json, urlencoded } = pkg;
 import morgan from "morgan";
 
 // Importar as rotas
