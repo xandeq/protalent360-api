@@ -2,7 +2,8 @@
 
 import bcrypt from 'bcryptjs';
 const { hashSync } = bcrypt;
-import { sign, verify } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+const { sign, verify } = jwt;
 import pool from '../config/db.js';
 
 
