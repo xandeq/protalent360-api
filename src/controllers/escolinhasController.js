@@ -1,4 +1,4 @@
-import { query as _query } from "../config/db.js"; // Importa conexão com banco já com Promises
+import pool from "../config/db.js";
 
 // Função para criar escolinha
 export async function cadastrarEscolinha(req, res) {
@@ -21,7 +21,7 @@ export async function cadastrarEscolinha(req, res) {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     // Executa a query de inserção usando await
-    await _query(query, [
+    await pool.query(query, [
       nome,
       cidade,
       estado,
@@ -44,7 +44,7 @@ export async function cadastrarEscolinha(req, res) {
 export async function listarEscolinhas(req, res) {
   try {
     const query = "SELECT * FROM escolinhas";
-    const [results] = await _query(query); // Executa a query de listagem
+    const [results] = await pool.query(query); // Executa a query de listagem
     res.status(200).json(results);
   } catch (error) {
     console.error("Erro ao listar escolinhas:", error);
