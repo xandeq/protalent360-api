@@ -2,7 +2,7 @@ import pool from "../config/db.js";
 
 // Função para criar uma nova mídia
 // Função para criar um registro de mídia no banco de dados
-const createMidia = async (atletaId, tipo, url) => {
+export const createMidia = async (atletaId, tipo, url) => {
   const [result] = await query(
     "INSERT INTO midias (atleta_id, tipo, url) VALUES (?, ?, ?)",
     [atletaId, tipo, url]
@@ -13,7 +13,7 @@ const createMidia = async (atletaId, tipo, url) => {
 // Remove this default export
 
 // Função para obter uma mídia por ID
-const getMidiaById = async (midiaId) => {
+export const getMidiaById = async (midiaId) => {
   const sql = `SELECT * FROM midias WHERE id = ?`;
 
   try {
@@ -23,11 +23,4 @@ const getMidiaById = async (midiaId) => {
     console.error("Erro ao buscar mídia:", error);
     throw error;
   }
-};
-
-// Outras operações como atualização ou exclusão podem ser adicionadas aqui
-
-export default {
-  createMidia,
-  getMidiaById,
 };
