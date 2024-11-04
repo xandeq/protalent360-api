@@ -1,8 +1,7 @@
 // db.js
-import mysql from "mysql2";
-import dotenv from "dotenv";
-dotenv.config();
+import mysql from 'mysql2';
 
+// Configuração do pool de conexões
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -11,6 +10,8 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-}).promise();
+});
 
+// Exportação como default
 export default pool;
+

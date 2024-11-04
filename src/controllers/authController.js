@@ -3,7 +3,8 @@
 import bcrypt from 'bcryptjs';
 const { hashSync } = bcrypt;
 import { sign, verify } from 'jsonwebtoken';
-import { pool } from '../config/db.js'; // Conexão com o banco de dados MySQL
+import pool from '../config/db.js';
+
 
 // Registrar um novo usuário
 export function signup(req, res) {
