@@ -1,6 +1,8 @@
-import express from 'express';
-const router = express.Router();
+import express from "express";
 import { upload } from "../middleware/uploadMiddleware.js";
+import { getPresignedUrl } from "../controllers/midiasController.js";
+
+const router = express.Router();
 
 // Rota para upload de arquivos de mídia
 router.post("/upload", upload.single("midia"), uploadMidia);
