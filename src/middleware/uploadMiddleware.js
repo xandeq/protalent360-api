@@ -1,6 +1,7 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
-import { S3 } from "aws-sdk";
+import pkg from "aws-sdk";
+const { S3 } = pkg;
 import dotenv from "dotenv";
 dotenv.config();
 
