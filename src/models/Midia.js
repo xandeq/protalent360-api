@@ -1,4 +1,4 @@
-import { query } from "../config/db"; // Pool de conexões MySQL
+import pool from "../config/db.js";
 
 // Função para criar uma nova mídia
 // Função para criar um registro de mídia no banco de dados
